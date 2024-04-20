@@ -16,7 +16,7 @@
             android:name=".TitleView"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.naver.scope93.MapleRandomDefense.app.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
