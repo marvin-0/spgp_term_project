@@ -10,10 +10,12 @@ import com.naver.scope93.spgp_term_project.R;
 
 public class PlayerUnit extends Sprite {
     private static final String TAG = PlayerUnit.class.getSimpleName();
+    private static final float UNIT_WIDTH = 0.9f;
+    private static final float UNIT_HEIGHT = 1.3f;
 
     public PlayerUnit() {
         super(R.mipmap.beginner_idle1);
-        setPosition(Metrics.width / 2, Metrics.height/2, 0.9f, 1.3f);
+        setPosition(Metrics.width / 2, Metrics.height/2, UNIT_WIDTH, UNIT_HEIGHT);
 
     }
 
@@ -23,6 +25,7 @@ public class PlayerUnit extends Sprite {
 
     @Override
     public void draw(Canvas canvas) {
+
         super.draw(canvas);
     }
 
@@ -48,7 +51,7 @@ public class PlayerUnit extends Sprite {
                 pts = Metrics.fromScreen(event.getX(), event.getY());
                 if(selectOn){
                     Log.d(TAG, "마우스 x, " + pts[0] + "캐릭터 x : " + dstRect.centerX());
-                    setPosition(pts[0], pts[1], 0.9f, 1.3f);
+                    setPosition(pts[0], pts[1], UNIT_WIDTH, UNIT_HEIGHT);
                 }
                 return true;
         }

@@ -18,7 +18,8 @@ public class Map extends Sprite {
 
     public Map(int row, int col) {
         super(R.mipmap.grass);
-        setPosition(Metrics.width / 4 + (2 * MAP_RADIUS * row), Metrics.height / 3 + (2 * MAP_RADIUS * col), MAP_RADIUS);
+        setPosition(3.8f + (2 * MAP_RADIUS * row), 2.0f + (2 * MAP_RADIUS * col), MAP_RADIUS);
+        //setPosition(0.5f + (2 * MAP_RADIUS * row), Metrics.height / 3 + (2 * MAP_RADIUS * col), MAP_RADIUS);
     }
 
     @Override

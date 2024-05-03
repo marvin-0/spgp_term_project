@@ -18,7 +18,6 @@ public class InGameScene extends Scene {
         bg, map, enemy,  player, ui, COUNT
     }
     public InGameScene() {
-
         initLayers(Layer.COUNT);
         this.playerUnit = new PlayerUnit();
         add(Layer.player, playerUnit);
@@ -28,6 +27,8 @@ public class InGameScene extends Scene {
                 add(Layer.map, Map.get(i, j));
             }
         }
+
+        add(Layer.enemy, new Enemy(1,1));
 
     }
 
