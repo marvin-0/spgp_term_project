@@ -13,8 +13,9 @@
         android:theme="@style/Theme.Spgp_term_project"
         tools:targetApi="31">
         <activity
-            android:name=".TitleView"
-            android:exported="false" />
+            android:name="com.naver.scope93.MapleRandomDefense.app.MapleRandomDefense"
+            android:screenOrientation="landscape"
+            android:exported="false"/>
         <activity
             android:name="com.naver.scope93.MapleRandomDefense.app.MainActivity"
             android:exported="true">

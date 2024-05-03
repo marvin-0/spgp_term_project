@@ -19,20 +19,28 @@ import com.naver.scope93.spgp_term_project.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
     }
 
+    protected void onResume() {
+        super.onResume();
+    }
+
+    protected void onPause() {
+
+        super.onPause();
+    }
     public void onBtnButton(View view){
         if(view.getId() == R.id.imageButton1){
             startActivity(new Intent(this, MapleRandomDefense.class));
         }
         else if(view.getId() == R.id.imageButton2){
-            Log.d("Tag", "button2");
+            //Log.d("Tag", "button2");
             new AlertDialog.Builder(this)
                     .setTitle("종료")
                     .setMessage("정말로 종료하시겠습니까?")
@@ -48,4 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
 }
