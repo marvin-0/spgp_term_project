@@ -15,10 +15,14 @@ public class Map extends Sprite {
     private static final String TAG = Map.class.getSimpleName();
 
     private static final float MAP_RADIUS = 0.7f;
+    private static final float MAP_LEFT = 3.8f;
+    private static final float MAP_TOP = 2.0f;
+    private static final float MAP_RIGHT = MAP_LEFT + (2*MAP_RADIUS*7);
+    private static final float MAP_BOTTOM = MAP_TOP + (2*MAP_RADIUS*4);
 
     public Map(int row, int col) {
         super(R.mipmap.grass);
-        setPosition(3.8f + (2 * MAP_RADIUS * row), 2.0f + (2 * MAP_RADIUS * col), MAP_RADIUS);
+        setPosition(MAP_LEFT + (2 * MAP_RADIUS * row), MAP_TOP + (2 * MAP_RADIUS * col), MAP_RADIUS);
         //setPosition(0.5f + (2 * MAP_RADIUS * row), Metrics.height / 3 + (2 * MAP_RADIUS * col), MAP_RADIUS);
     }
 
