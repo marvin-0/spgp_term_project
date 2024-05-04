@@ -23,7 +23,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
     private static final float MAP_BOTTOM = MAP_TOP + (2*MAP_RADIUS*5);
 
 
-    public Enemy(int level, int index){
+    private Enemy(int level, int index){
         super(R.mipmap.monster1_run, 10.0f);
         init(level, index);
         dy = SPEED;

@@ -2,25 +2,30 @@ package com.naver.scope93.MapleRandomDefense.game;
 
 import android.view.MotionEvent;
 
+import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.objects.Background;
 import com.naver.scope93.framework.scene.Scene;
 import com.naver.scope93.spgp_term_project.R;
 
+import java.util.ArrayList;
+
 public class InGameScene extends Scene {
     private static final String TAG = InGameScene.class.getSimpleName();
-    private final PlayerUnit playerUnit;
+    private UnitGenerator unitGenerator;
+    private ArrayList<IGameObject> players;
     private static final int MAP_ROW = 7;
     private static final int MAP_COL = 4;
 
     //private final PlayerUnit playerUnit;
 
     public enum Layer {
-        bg, map, enemy,  player, ui, COUNT
+        bg, map, enemy,  player, ui, controller, COUNT
     }
     public InGameScene() {
         initLayers(Layer.COUNT);
-        this.playerUnit = new PlayerUnit();
-        add(Layer.player, playerUnit);
+        this.unitGenerator = new UnitGenerator();
+        add(Layer.controller, unitGenerator);
+
         add(Layer.bg, new Background(R.mipmap.background));
         for(int i = 0; i < MAP_ROW; i++){
             for(int j = 0; j < MAP_COL; j++){
@@ -28,7 +33,8 @@ public class InGameScene extends Scene {
             }
         }
 
-        add(Layer.enemy, new Enemy(1,1));
+        add(Layer.controller, new EnemyGenerator());
+
 
     }
 
@@ -39,6 +45,12 @@ public class InGameScene extends Scene {
 
     @Override
     public boolean onTouch(MotionEvent event) {
-        return playerUnit.onTouch(event);
+        players = this.objectsAt(Layer.player);
+        for(int p = players.size() - 1; p >= 0; p--){
+            PlayerUnit playerUnit = (PlayerUnit)players.get(p);
+            playerUnit.onTouch(event);
+        }
+        unitGenerator.onTouch(event);
+        return true;
     }
 }
