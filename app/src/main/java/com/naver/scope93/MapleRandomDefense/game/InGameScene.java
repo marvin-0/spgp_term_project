@@ -29,7 +29,7 @@ public class InGameScene extends Scene {
         add(Layer.bg, new Background(R.mipmap.background));
         for(int i = 0; i < MAP_ROW; i++){
             for(int j = 0; j < MAP_COL; j++){
-                add(Layer.map, Map.get(i, j));
+                add(Layer.map, new Map_Tile(i, j));
             }
         }
 
@@ -48,7 +48,7 @@ public class InGameScene extends Scene {
         players = this.objectsAt(Layer.player);
         for(int p = players.size() - 1; p >= 0; p--){
             PlayerUnit playerUnit = (PlayerUnit)players.get(p);
-            playerUnit.onTouch(event);
+            playerUnit.onTouch(event, this);
         }
         unitGenerator.onTouch(event);
         return true;

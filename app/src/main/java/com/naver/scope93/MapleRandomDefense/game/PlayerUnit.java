@@ -4,12 +4,16 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.interfaces.IRecyclable;
 import com.naver.scope93.framework.objects.AnimSprite;
 import com.naver.scope93.framework.objects.Sprite;
 import com.naver.scope93.framework.scene.RecycleBin;
 import com.naver.scope93.framework.view.Metrics;
 import com.naver.scope93.spgp_term_project.R;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class PlayerUnit extends AnimSprite implements IRecyclable {
     private static final String TAG = PlayerUnit.class.getSimpleName();
@@ -18,6 +22,7 @@ public class PlayerUnit extends AnimSprite implements IRecyclable {
     private int index;
     private static final float UNIT_WIDTH = 0.9f;
     private static final float UNIT_HEIGHT = 1.3f;
+    private float m_x, m_y;
 
     private PlayerUnit(int level, int index) {
         super(R.mipmap.normal_idle, 10.0f);
@@ -54,7 +59,7 @@ public class PlayerUnit extends AnimSprite implements IRecyclable {
 
     private boolean selectOn = false;
 
-    public boolean onTouch(MotionEvent event){
+    public boolean onTouch(MotionEvent event, InGameScene scene){
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 float[] pts = Metrics.fromScreen(event.getX(), event.getY());
@@ -69,13 +74,26 @@ public class PlayerUnit extends AnimSprite implements IRecyclable {
                     return false;
                 }
             case MotionEvent.ACTION_UP:
-                selectOn = false;
+                if(selectOn) {
+                    setPosition(m_x, m_y, UNIT_WIDTH, UNIT_HEIGHT);
+                    selectOn = false;
+                }
                 return true;
             case MotionEvent.ACTION_MOVE:
                 pts = Metrics.fromScreen(event.getX(), event.getY());
                 if(selectOn){
-                    //Log.d(TAG, "마우스 x, " + pts[0] + "캐릭터 x : " + dstRect.centerX());
                     setPosition(pts[0], pts[1], UNIT_WIDTH, UNIT_HEIGHT);
+                    ArrayList<IGameObject> tiles = scene.objectsAt(InGameScene.Layer.map);
+                    for(int t = tiles.size() - 1; t >= 0; t--){
+                        Map_Tile map = (Map_Tile)tiles.get(t);
+                        if(map.getRect().contains(x, y)){
+                            m_x = map.getRect().centerX();
+                            m_y = map.getRect().centerY();
+                            break;
+                        }
+                    }
+                    //Log.d(TAG, "마우스 x, " + pts[0] + "캐릭터 x : " + dstRect.centerX());
+
                 }
                 return true;
         }
