@@ -15,26 +15,31 @@ public class InGameScene extends Scene {
     private ArrayList<IGameObject> players;
     private static final int MAP_ROW = 7;
     private static final int MAP_COL = 4;
+    private ButtonUI buyButton;
+    private ButtonUI sellButton;
 
-    //private final PlayerUnit playerUnit;
 
     public enum Layer {
         bg, map, enemy,  player, ui, controller, COUNT
     }
     public InGameScene() {
         initLayers(Layer.COUNT);
-        this.unitGenerator = new UnitGenerator();
-        add(Layer.controller, unitGenerator);
 
         add(Layer.bg, new Background(R.mipmap.background));
         for(int i = 0; i < MAP_ROW; i++){
             for(int j = 0; j < MAP_COL; j++){
-                add(Layer.map, new Map_Tile(i, j));
+                add(Layer.map, new mapTile(i, j));
             }
         }
-
+        this.unitGenerator = new UnitGenerator();
+        add(Layer.controller, unitGenerator);
         add(Layer.controller, new EnemyGenerator());
 
+        this.buyButton = new ButtonUI(0);
+        add(Layer.ui, this.buyButton);
+
+        this.sellButton = new ButtonUI(1);
+        add(Layer.ui, this.sellButton);
 
     }
 
@@ -50,7 +55,7 @@ public class InGameScene extends Scene {
             PlayerUnit playerUnit = (PlayerUnit)players.get(p);
             playerUnit.onTouch(event, this);
         }
-        unitGenerator.onTouch(event);
+        this.buyButton.onTouch(event, unitGenerator);
         return true;
     }
 }
