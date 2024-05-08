@@ -22,6 +22,13 @@ public class Sprite implements IGameObject {
         }
         //Log.v(TAG, "Created " + this.getClass().getSimpleName() + "@" + System.identityHashCode(this));
     }
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
 
     public void setPosition(float x, float y, float radius) {
         this.x = x;

@@ -28,7 +28,22 @@ public class UnitGenerator implements IGameObject {
     private void generate(){
         Scene scene = Scene.top();
         if(scene == null) return;
-        scene.add(InGameScene.Layer.player, PlayerUnit.get(0, this.index, (InGameScene) scene));
+        scene.add(InGameScene.Layer.player, PlayerUnit.get(randomLevel(), this.index, (InGameScene) scene));
+    }
+
+    private int randomLevel(){
+        int randomNum = random.nextInt(100);
+
+        int[] gamble = {50, 75, 90, 95, 99};
+        //int[] gamble = {20, 40, 60, 80, 100};
+
+        for(int i = 0; i < gamble.length; ++i){
+            if(randomNum < gamble[i]){
+                return i;
+            }
+        }
+
+        return 5;
     }
 
     public boolean onTouch(MotionEvent event, InGameScene scene){

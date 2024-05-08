@@ -1,13 +1,14 @@
 package com.naver.scope93.MapleRandomDefense.game;
 
 import android.graphics.Canvas;
-import android.graphics.RectF;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
 import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.interfaces.IRecyclable;
 import com.naver.scope93.framework.objects.AnimSprite;
+import com.naver.scope93.framework.objects.SheetSprite;
 import com.naver.scope93.framework.scene.RecycleBin;
 import com.naver.scope93.framework.scene.Scene;
 import com.naver.scope93.framework.view.Metrics;
@@ -15,21 +16,46 @@ import com.naver.scope93.spgp_term_project.R;
 
 import java.util.ArrayList;
 
-public class PlayerUnit extends AnimSprite implements IRecyclable {
+public class PlayerUnit extends SheetSprite implements IRecyclable {
+    public enum State {
+        idle, attack
+    }
+
     private static final String TAG = PlayerUnit.class.getSimpleName();
     private int level;
     private int atk;
     private int index;
     private float atkSpeed;
     private float range;
-    private static final float UNIT_WIDTH = 0.6f;
-    private static final float UNIT_HEIGHT = 1.0f;
+    private static final float UNIT_WIDTH = 1.0f;
+    private static final float UNIT_HEIGHT = 1.2f;
     private float m_x, m_y;
     private int tileIndex = -1;
+    protected State state = State.attack;
+    protected static Rect[][] srcRectsArray = {
+            makeRects(0, 1, 2),
+            makeRects(100, 101, 102)
+    };
     private static ArrayList<IGameObject> tiles;
 
+    private static final int[] resId = {
+            R.mipmap.normal_sheet, R.mipmap.rare_sheet, R.mipmap.ancient_sheet,
+            R.mipmap.epic_sheet, R.mipmap.legend_sheet, R.mipmap.mystic_sheet
+    };
+    protected static Rect[] makeRects(int... indices) {
+        Rect[] rects = new Rect[indices.length];
+        for (int i = 0; i < indices.length; i++) {
+            int idx = indices[i];
+            int l = 0 + (idx % 100) * 98;
+            int t = 0 + (idx / 100) * 90;
+            rects[i] = new Rect(l, t, l + 98, t + 90);
+        }
+        return rects;
+    }
+
     private PlayerUnit(int level, int index, InGameScene scene) {
-        super(R.mipmap.beginner_idle1, 10.0f);
+        //super(resId[level], 10.0f);
+        super(resId[level], 8);
         if(tiles == null) {
             tiles = scene.objectsAt(InGameScene.Layer.map);
         }
@@ -42,7 +68,7 @@ public class PlayerUnit extends AnimSprite implements IRecyclable {
         this.atkSpeed = 3.5f - (level * 0.4f);
         this.range = 0.6f * (level+3);
         this.tileIndex = index;
-        setAnimationResource(R.mipmap.beginner_idle1, 10.0f, 1);
+        srcRects = srcRectsArray[state.ordinal()];
         mapTile tile = (mapTile)tiles.get(index);
         tileIndex = index;
         tile.unitPlace = true;

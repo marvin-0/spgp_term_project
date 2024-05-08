@@ -10,7 +10,7 @@ import java.util.Random;
 public class EnemyGenerator implements IGameObject {
     private static final String TAG = EnemyGenerator.class.getSimpleName();
     public static final float GEN_INTERVAL = 0.5f;
-    public static final float WAVE_READY = 10.f;
+    public static final float WAVE_READY = 5.f;
     private final Random random = new Random();
     private float enemyTime = WAVE_READY;
     private int wave;
