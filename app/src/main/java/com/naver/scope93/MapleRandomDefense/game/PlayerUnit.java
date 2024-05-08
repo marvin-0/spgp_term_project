@@ -46,7 +46,9 @@ public class PlayerUnit extends AnimSprite implements IRecyclable {
         mapTile tile = (mapTile)tiles.get(index);
         tileIndex = index;
         tile.unitPlace = true;
-        setPosition(tile.getRect().centerX(), tile.getRect().centerY(), UNIT_WIDTH, UNIT_HEIGHT);
+        m_x = tile.getRect().centerX();
+        m_y = tile.getRect().centerY();
+        setPosition(m_x, m_y, UNIT_WIDTH, UNIT_HEIGHT);
     }
 
     public static PlayerUnit get(int level, int index, InGameScene scene){
@@ -100,6 +102,7 @@ public class PlayerUnit extends AnimSprite implements IRecyclable {
                     if(tileIndex != -1) {
                         mapTile tile = (mapTile) tiles.get(tileIndex);
                         tile.unitPlace = false;
+                        Log.d(TAG, "실행됨" + tileIndex);
                     }
                     setPosition(pts[0], pts[1], 0.9f, 1.3f);
                     return true;
@@ -111,7 +114,7 @@ public class PlayerUnit extends AnimSprite implements IRecyclable {
             case MotionEvent.ACTION_MOVE:
                 pts = Metrics.fromScreen(event.getX(), event.getY());
                 if(selectOn){
-                    setPosition(pts[0], pts[1], UNIT_WIDTH, UNIT_HEIGHT);
+                    setPosition(pts[0], pts[1], 0.9f, 1.3f);
 
                     for(int t = tiles.size() - 1; t >= 0; t--){
                         mapTile tile = (mapTile)tiles.get(t);
