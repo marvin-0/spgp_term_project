@@ -133,6 +133,7 @@
      
    4. ButtonUi
       * 그림
+
         뽑기버튼 : ![pickup_button](https://github.com/marvin-0/spgp_term_project/assets/58317329/51802204-f4d3-47ff-bbe5-61f9cc8367f4)
 
         판매버튼 : ![sell_button](https://github.com/marvin-0/spgp_term_project/assets/58317329/a201817b-f89d-4e8e-9107-a7c185cbce61)
