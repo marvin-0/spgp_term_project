@@ -103,6 +103,7 @@
 
    1. PlayerUnit
       * 그림
+
         노멀 : ![normal_sheet](https://github.com/marvin-0/spgp_term_project/assets/58317329/a683fba2-1f59-45b8-a3c3-74359cad8403)
 
         레어 : ![rare_sheet](https://github.com/marvin-0/spgp_term_project/assets/58317329/6a52278b-9fd3-40df-9060-96ba068f36dd)
