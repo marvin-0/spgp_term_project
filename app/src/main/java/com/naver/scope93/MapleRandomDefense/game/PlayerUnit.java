@@ -27,11 +27,11 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     private int index;
     private float atkSpeed;
     private float range;
-    private static final float UNIT_WIDTH = 1.0f;
+    private static final float UNIT_WIDTH = 1.3f;
     private static final float UNIT_HEIGHT = 1.2f;
     private float m_x, m_y;
     private int tileIndex = -1;
-    protected State state = State.attack;
+    protected State state = State.idle;
     protected static Rect[][] srcRectsArray = {
             makeRects(0, 1, 2),
             makeRects(100, 101, 102)
@@ -46,9 +46,9 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
         Rect[] rects = new Rect[indices.length];
         for (int i = 0; i < indices.length; i++) {
             int idx = indices[i];
-            int l = 0 + (idx % 100) * 98;
-            int t = 0 + (idx / 100) * 90;
-            rects[i] = new Rect(l, t, l + 98, t + 90);
+            int l = 0 + (idx % 100) * 100;
+            int t = 0 + (idx / 100) * 80;
+            rects[i] = new Rect(l, t, l + 100, t + 80);
         }
         return rects;
     }
@@ -68,7 +68,8 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
         this.atkSpeed = 3.5f - (level * 0.4f);
         this.range = 0.6f * (level+3);
         this.tileIndex = index;
-        srcRects = srcRectsArray[state.ordinal()];
+        //srcRects = srcRectsArray[state.ordinal()];
+        setState(State.idle);
         mapTile tile = (mapTile)tiles.get(index);
         tileIndex = index;
         tile.unitPlace = true;
@@ -93,22 +94,30 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
         InGameScene scene = (InGameScene) Scene.top();
         if(scene == null) return;
         atkSpeed -= elapsedSeconds;
-        if(atkSpeed > 0) return;
+
 
         ArrayList<IGameObject> enemies = scene.objectsAt(InGameScene.Layer.enemy);
         for(int e = 0; e < enemies.size(); e++){
             Enemy enemy = (Enemy)enemies.get(e);
             if(distanceEnemy(enemy)){
+                setState(State.attack);
+                if(atkSpeed > 0) return;
                 enemy.decreaseLife(atk);
                 atkSpeed = 3.5f - (level * 0.4f);
-                break;
+                return;
             }
         }
+        setState(State.idle);
     }
 
     private boolean distanceEnemy(Enemy enemy){
         float distance = (float)(Math.pow(enemy.getRect().centerX() - x, 2) + Math.pow(enemy.getRect().centerY() - y, 2));
         return (distance < range*range);
+    }
+
+    private void setState(State state){
+        this.state = state;
+        srcRects = srcRectsArray[state.ordinal()];
     }
 
     @Override
