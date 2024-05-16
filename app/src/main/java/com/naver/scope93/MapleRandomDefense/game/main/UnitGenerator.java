@@ -1,14 +1,12 @@
-package com.naver.scope93.MapleRandomDefense.game;
+package com.naver.scope93.MapleRandomDefense.game.main;
 
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.scene.Scene;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 public class UnitGenerator implements IGameObject {

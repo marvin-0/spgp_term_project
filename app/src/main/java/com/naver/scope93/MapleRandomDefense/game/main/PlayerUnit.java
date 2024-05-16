@@ -1,4 +1,4 @@
-package com.naver.scope93.MapleRandomDefense.game;
+package com.naver.scope93.MapleRandomDefense.game.main;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 
 import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.interfaces.IRecyclable;
-import com.naver.scope93.framework.objects.AnimSprite;
 import com.naver.scope93.framework.objects.SheetSprite;
 import com.naver.scope93.framework.scene.RecycleBin;
 import com.naver.scope93.framework.scene.Scene;
@@ -139,7 +138,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
                         tile.unitPlace = false;
                         Log.d(TAG, "실행됨" + tileIndex);
                     }
-                    setPosition(pts[0], pts[1], 0.9f, 1.3f);
+                    setPosition(pts[0], pts[1], 1.5f, 1.4f);
                     return true;
                 }
                 else{
@@ -149,7 +148,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
             case MotionEvent.ACTION_MOVE:
                 pts = Metrics.fromScreen(event.getX(), event.getY());
                 if(selectOn){
-                    setPosition(pts[0], pts[1], 0.9f, 1.3f);
+                    setPosition(pts[0], pts[1], 1.5f, 1.4f);
 
                     for(int t = tiles.size() - 1; t >= 0; t--){
                         mapTile tile = (mapTile)tiles.get(t);

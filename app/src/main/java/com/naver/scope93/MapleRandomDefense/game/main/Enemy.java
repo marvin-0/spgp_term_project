@@ -1,9 +1,8 @@
-package com.naver.scope93.MapleRandomDefense.game;
+package com.naver.scope93.MapleRandomDefense.game.main;
 
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import com.naver.scope93.framework.interfaces.IBoxCollidable;
 import com.naver.scope93.framework.interfaces.IRecyclable;
 import com.naver.scope93.framework.objects.AnimSprite;
 import com.naver.scope93.framework.scene.RecycleBin;

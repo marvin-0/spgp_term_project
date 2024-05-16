@@ -1,4 +1,4 @@
-package com.naver.scope93.MapleRandomDefense.game;
+package com.naver.scope93.MapleRandomDefense.game.main;
 
 import android.graphics.Canvas;
 import android.view.MotionEvent;

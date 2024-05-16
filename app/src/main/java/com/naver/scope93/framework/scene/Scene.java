@@ -11,6 +11,7 @@ import com.naver.scope93.framework.activity.GameActivity;
 import com.naver.scope93.framework.interfaces.IBoxCollidable;
 import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.interfaces.IRecyclable;
+import com.naver.scope93.framework.interfaces.ITouchable;
 import com.naver.scope93.spgp_term_project.BuildConfig;
 
 import java.util.ArrayList;
@@ -146,7 +147,20 @@ public class Scene {
         }
     }
 
+    protected int getTouchLayerIndex() {
+        return -1;
+    }
     public boolean onTouch(MotionEvent event) {
+        int touchLayer = getTouchLayerIndex();
+        if (touchLayer < 0) return false;
+        ArrayList<IGameObject> gameObjects = layers.get(touchLayer);
+        for (IGameObject gobj : gameObjects) {
+            if (!(gobj instanceof ITouchable)) {
+                continue;
+            }
+            boolean processed = ((ITouchable) gobj).onTouchEvent(event);
+            if (processed) return true;
+        }
         return false;
     }
 
@@ -165,6 +179,13 @@ public class Scene {
     }
 
     public boolean onBackPressed() {
+        return false;
+    }
+    public boolean clipsRect() {
+        return true;
+    }
+
+    public boolean isTransparent() {
         return false;
     }
 
