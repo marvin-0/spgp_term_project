@@ -16,7 +16,14 @@ public class Enemy extends AnimSprite implements IRecyclable{
     private static final float RADIUS = 0.3f;
     private int level;
     private int life, maxLife;
-
+    private static final int[] resId = {
+            R.mipmap.monster1_sheet, R.mipmap.monster2_sheet, R.mipmap.monster3_sheet,
+            R.mipmap.monster3_sheet, R.mipmap.monster4_sheet, R.mipmap.monster5_sheet,
+            R.mipmap.monster6_sheet, R.mipmap.monster7_sheet, R.mipmap.monster8_sheet,
+            R.mipmap.monster9_sheet, R.mipmap.monster10_sheet, R.mipmap.monster11_sheet,
+            R.mipmap.monster11_sheet, R.mipmap.monster12_sheet, R.mipmap.monster13_sheet,
+            R.mipmap.monster14_sheet, R.mipmap.monster15_sheet, R.mipmap.monster16_sheet
+    };
     private static final float MAP_RADIUS = 0.6f;
     private static final float MAP_LEFT = 3.8f - MAP_RADIUS * 2;
     private static final float MAP_TOP = 2.0f - MAP_RADIUS * 2;
@@ -25,7 +32,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
     protected static Gauge gauge = new Gauge(0.1f, R.color.enemy_gauge_fg, R.color.enemy_gauge_bg);
 
     private Enemy(int level, int index){
-        super(R.mipmap.monster1_run, 10.0f);
+        super(R.mipmap.monster1_sheet, 10.0f);
         init(level, index);
     }
 
@@ -34,7 +41,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
         this.life = this.maxLife = (level + 1) * 30;
         this.dx = 0;
         dy = SPEED;
-        setAnimationResource(R.mipmap.monster1_run, 10.0f, 8);
+        setAnimationResource(R.mipmap.monster1_sheet, 10.0f, 8);
         setPosition(MAP_LEFT, MAP_TOP, RADIUS);
     }
 
