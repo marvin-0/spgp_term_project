@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 
 import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.objects.Background;
+import com.naver.scope93.framework.objects.Score;
 import com.naver.scope93.framework.scene.Scene;
 import com.naver.scope93.spgp_term_project.R;
 
@@ -17,10 +18,11 @@ public class InGameScene extends Scene {
     private static final int MAP_COL = 4;
     private ButtonUI buyButton;
     private ButtonUI sellButton;
+    Score money;
 
 
     public enum Layer {
-        bg, map, enemy,  player, ui, controller, COUNT
+        bg, map, enemy, ui, player, controller, COUNT
     }
     public InGameScene() {
         initLayers(Layer.COUNT);
