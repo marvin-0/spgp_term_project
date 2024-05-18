@@ -10,7 +10,7 @@ import java.util.Random;
 public class EnemyGenerator implements IGameObject {
     private static final String TAG = EnemyGenerator.class.getSimpleName();
     public static final float GEN_INTERVAL = 0.5f;
-    public static final float WAVE_READY = 5.f;
+    public static final float WAVE_READY = 1.f;
     private final Random random = new Random();
     private float enemyTime = WAVE_READY;
     private int wave;
@@ -19,12 +19,13 @@ public class EnemyGenerator implements IGameObject {
     @Override
     public void update(float elapsedSeconds) {
         enemyTime -= elapsedSeconds;
-        if (enemyTime < 0 && enemyCount < 25) {
+        if (enemyTime < 0 && enemyCount < 5) {
             generate();
             enemyTime = GEN_INTERVAL;
             enemyCount++;
-        } else if(enemyCount >= 25){
+        } else if(enemyCount >= 5){
             enemyTime = WAVE_READY;
+            wave += 1;
             enemyCount = 0;
         }
     }
@@ -32,7 +33,7 @@ public class EnemyGenerator implements IGameObject {
     private void generate() {
         Scene scene = Scene.top();
         if(scene == null) return;
-        scene.add(InGameScene.Layer.enemy, Enemy.get(1, 1));
+        scene.add(InGameScene.Layer.enemy, Enemy.get(wave, 1));
     }
 
     @Override
