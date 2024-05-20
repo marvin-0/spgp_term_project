@@ -107,6 +107,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
             InGameScene scene = (InGameScene) Scene.top();
             if(scene == null) return;
             scene.remove(InGameScene.Layer.enemy, this);
+            scene.killMonster();
         }
     }
 
@@ -115,7 +116,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
         super.draw(canvas);
 
         canvas.save();
-        float width = dstRect.width() * 0.1f;
+        float width = dstRect.width() * 0.7f;
         canvas.translate(x - width / 2, dstRect.bottom);
         canvas.scale(width, width);
         gauge.draw(canvas, (float)life / maxLife);

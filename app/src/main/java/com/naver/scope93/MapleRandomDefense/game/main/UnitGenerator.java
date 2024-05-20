@@ -52,10 +52,9 @@ public class UnitGenerator implements IGameObject {
                 if(!tile.unitPlace){
                     index = t;
                     generate();
-                    break;
+                    return true;
                 }
             }
-            return true;
         }
         return false;
     }
