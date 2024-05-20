@@ -13,13 +13,13 @@ public class EnemyGenerator implements IGameObject {
     public static final float WAVE_READY = 1.f;
     private final Random random = new Random();
     private float enemyTime = WAVE_READY;
-    private int wave;
+    private int wave = 13;
     public int enemyCount = 0;
 
     @Override
     public void update(float elapsedSeconds) {
         enemyTime -= elapsedSeconds;
-        if (enemyTime < 0 && enemyCount < 5) {
+        if (enemyTime < 0 && enemyCount < 5 && wave < 20) {
             generate();
             enemyTime = GEN_INTERVAL;
             enemyCount++;
@@ -28,6 +28,8 @@ public class EnemyGenerator implements IGameObject {
             wave += 1;
             enemyCount = 0;
         }
+
+
     }
 
     private void generate() {

@@ -1,6 +1,7 @@
 package com.naver.scope93.MapleRandomDefense.game.main;
 
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.RectF;
 
 import com.naver.scope93.framework.interfaces.IRecyclable;
@@ -9,6 +10,8 @@ import com.naver.scope93.framework.scene.RecycleBin;
 import com.naver.scope93.framework.scene.Scene;
 import com.naver.scope93.framework.util.Gauge;
 import com.naver.scope93.spgp_term_project.R;
+
+import java.util.ArrayList;
 
 //implements IBoxCollidable, IRecyclable
 public class Enemy extends AnimSprite implements IRecyclable{
@@ -34,6 +37,15 @@ public class Enemy extends AnimSprite implements IRecyclable{
             4, 3, 4,
             3, 6
     };
+    private static PointF[] monsterSize = {
+            makeSize(0.5f, 0.5f), makeSize(0.6f, 0.6f), makeSize(0.6f, 0.6f),
+            makeSize(0.9f, 0.9f), makeSize(1.8f, 1.8f), makeSize(1.2f, 1.2f),
+            makeSize(1.2f, 1.2f), makeSize(1.2f, 1.2f), makeSize(1.2f, 1.2f),
+            makeSize(2.0f, 2.0f), makeSize(0.9f, 0.9f), makeSize(0.9f, 0.9f),
+            makeSize(1.2f, 1.2f), makeSize(1.3f, 1.3f), makeSize(2.3f, 2.3f),
+            makeSize(0.7f, 0.7f), makeSize(1.1f, 1.1f), makeSize(1.0f, 1.0f),
+            makeSize(1.0f, 1.0f), makeSize(1.9f, 1.9f)
+    };
     private static final float MAP_RADIUS = 0.6f;
     private static final float MAP_LEFT = 3.8f - MAP_RADIUS * 2;
     private static final float MAP_TOP = 2.0f - MAP_RADIUS * 2;
@@ -52,7 +64,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
         this.dx = 0;
         dy = SPEED;
         setAnimationResource(resId[level], 10.0f, frameCount[level]);
-        setPosition(MAP_LEFT, MAP_TOP, RADIUS);
+        setPosition(MAP_LEFT, MAP_TOP, monsterSize[level].x, monsterSize[level].y);
     }
 
     public static Enemy get(int level, int index){
@@ -66,6 +78,10 @@ public class Enemy extends AnimSprite implements IRecyclable{
 
     public RectF getRect(){
         return dstRect;
+    }
+
+    private static PointF makeSize(float w, float h){
+        return new PointF(w, h);
     }
 
     @Override
