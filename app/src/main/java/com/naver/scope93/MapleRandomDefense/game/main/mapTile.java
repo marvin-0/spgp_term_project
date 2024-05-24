@@ -18,6 +18,7 @@ public class mapTile extends Sprite {
     private static final float MAP_RIGHT = MAP_LEFT + (2*MAP_RADIUS*7);
     private static final float MAP_BOTTOM = MAP_TOP + (2*MAP_RADIUS*4);
     public boolean unitPlace = false;
+    public int unitIndex = -1;
 
     public mapTile(int row, int col) {
         super(R.mipmap.grass);

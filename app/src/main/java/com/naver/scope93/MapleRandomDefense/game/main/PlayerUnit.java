@@ -54,7 +54,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
 
     private PlayerUnit(int level, int index, InGameScene scene) {
         //super(resId[level], 10.0f);
-        super(resId[level], 8);
+        super(0, 0);
         if(tiles == null) {
             tiles = scene.objectsAt(InGameScene.Layer.map);
         }
@@ -74,6 +74,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
         tile.unitPlace = true;
         m_x = tile.getRect().centerX();
         m_y = tile.getRect().centerY();
+        setAnimationResource(resId[level], 8, 1);
         setPosition(m_x, m_y, UNIT_WIDTH, UNIT_HEIGHT);
     }
 
@@ -118,13 +119,21 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
         this.state = state;
         srcRects = srcRectsArray[state.ordinal()];
     }
-
+    private void upgrade(){
+        this.level += 1;
+        this.atk = (this.level + 1) * 30;
+        this.atkSpeed = 3.5f - (this.level * 0.4f);
+        this.range = 0.6f * (this.level+3);
+        setAnimationResource(resId[this.level], 8, 1);
+    }
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
     }
 
     private boolean selectOn = false;
+    private boolean upgradeOn = false;
+    private int deleteUnit = -1;
 
     public boolean onTouch(MotionEvent event, InGameScene scene){
         switch (event.getAction()){
@@ -156,7 +165,23 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
                             m_x = tile.getRect().centerX();
                             m_y = tile.getRect().centerY();
                             tileIndex = t;
+                            upgradeOn = false;
                             break;
+                        } else if (tile.getRect().contains(x, y) && tile.unitPlace) {
+                            ArrayList<IGameObject> units = scene.objectsAt(InGameScene.Layer.player);
+                            for(int i = units.size() - 1; i >= 0; i--){
+                                PlayerUnit unit = (PlayerUnit) units.get(i);
+                                if(unit == this) continue;
+                                if(unit.tileIndex != t) continue;
+                                Log.d(TAG, "실행됬나...?" + unit.level);
+                                if(unit.level == this.level && this.level < 5) {
+                                    upgradeOn = true;
+                                    m_x = tile.getRect().centerX();
+                                    m_y = tile.getRect().centerY();
+                                    tileIndex = t;
+                                    deleteUnit = i;
+                                }
+                            }
                         }
                     }
                     //Log.d(TAG, "마우스 x, " + pts[0] + "캐릭터 x : " + dstRect.centerX());
@@ -168,6 +193,12 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
                     mapTile tile = (mapTile)tiles.get(tileIndex);
                     tile.unitPlace = true;
                     setPosition(m_x, m_y, UNIT_WIDTH, UNIT_HEIGHT);
+                    if(upgradeOn){
+                        ArrayList<IGameObject> units = scene.objectsAt(InGameScene.Layer.player);
+                        PlayerUnit deleteunit = (PlayerUnit) units.get(this.deleteUnit);
+                        scene.remove(InGameScene.Layer.player, deleteunit);
+                        upgrade();
+                    }
                 }
                 selectOn = false;
                 return true;
