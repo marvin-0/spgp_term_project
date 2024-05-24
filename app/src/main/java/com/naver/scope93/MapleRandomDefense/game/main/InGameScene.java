@@ -6,6 +6,7 @@ import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.objects.Background;
 import com.naver.scope93.framework.objects.Score;
 import com.naver.scope93.framework.scene.Scene;
+import com.naver.scope93.framework.view.Metrics;
 import com.naver.scope93.spgp_term_project.R;
 
 import java.util.ArrayList;
@@ -19,12 +20,13 @@ public class InGameScene extends Scene {
     private ButtonUI buyButton;
     private ButtonUI sellButton;
     Score money;
-
+    private static int monsterKill;
 
     public enum Layer {
         bg, map, enemy, ui, player, controller, COUNT
     }
     public InGameScene() {
+        monsterKill = 0;
         initLayers(Layer.COUNT);
 
         add(Layer.bg, new Background(R.mipmap.background));
@@ -43,6 +45,22 @@ public class InGameScene extends Scene {
         this.sellButton = new ButtonUI(1);
         add(Layer.ui, this.sellButton);
 
+        this.money = new Score(R.mipmap.count_sheet, 3.0f, Metrics.height -1.5f, 0.6f);
+        money.setScore(300);
+        add(Layer.ui, money);
+
+    }
+
+    public void addMoney(int amount) {money.add(amount);}
+    public void subMoney(int amount) {money.sub(amount);}
+    public int getMoney() {return money.getScore();}
+
+    public void killMonster() {
+        monsterKill += 1;
+        if(monsterKill == 5){
+            money.add(100);
+            monsterKill = 0;
+        }
     }
 
     @Override
@@ -57,7 +75,10 @@ public class InGameScene extends Scene {
             PlayerUnit playerUnit = (PlayerUnit)players.get(p);
             playerUnit.onTouch(event, this);
         }
-        this.buyButton.onTouch(event, unitGenerator);
+        if(money.getScore() >= 100) {
+            if(this.buyButton.onTouch(event, unitGenerator))
+                money.sub(100);
+        }
         return true;
     }
 }

@@ -40,7 +40,6 @@ public class ButtonUI extends Sprite {
             if(type == 0 && dstRect.contains(pts[0], pts[1])){
                 return unitGenerator.onTouch(event, (InGameScene) Scene.top());
             }
-            return true;
         }
         return false;
     }
