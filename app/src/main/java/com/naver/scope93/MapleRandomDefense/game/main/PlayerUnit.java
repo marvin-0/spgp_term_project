@@ -41,6 +41,13 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
             R.mipmap.normal_sheet, R.mipmap.rare_sheet, R.mipmap.ancient_sheet,
             R.mipmap.epic_sheet, R.mipmap.legend_sheet, R.mipmap.mystic_sheet
     };
+
+    private static final int[] atkLevel = {
+            30, 50, 90, 140, 190, 250
+    };
+    private static final float[] atkSpeedLevel = {
+            1.5f, 1.0f, 0.6f, 0.2f, 0.05f
+    };
     protected static Rect[] makeRects(int... indices) {
         Rect[] rects = new Rect[indices.length];
         for (int i = 0; i < indices.length; i++) {
@@ -63,8 +70,8 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
 
     private void init(int level, int index){
         this.level = level;
-        this.atk = (level + 1) * 30;
-        this.atkSpeed = 3.5f - (level * 0.4f);
+        this.atk = atkLevel[level];
+        this.atkSpeed = atkSpeedLevel[level];
         this.range = 0.6f * (level+3);
         this.tileIndex = index;
         //srcRects = srcRectsArray[state.ordinal()];
@@ -95,16 +102,17 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
         if(scene == null) return;
         atkSpeed -= elapsedSeconds;
 
-
-        ArrayList<IGameObject> enemies = scene.objectsAt(InGameScene.Layer.enemy);
-        for(int e = 0; e < enemies.size(); e++){
-            Enemy enemy = (Enemy)enemies.get(e);
-            if(distanceEnemy(enemy)){
-                setState(State.attack);
-                if(atkSpeed > 0) return;
-                enemy.decreaseLife(atk);
-                atkSpeed = 3.5f - (level * 0.4f);
-                return;
+        if(!selectOn) {
+            ArrayList<IGameObject> enemies = scene.objectsAt(InGameScene.Layer.enemy);
+            for (int e = 0; e < enemies.size(); e++) {
+                Enemy enemy = (Enemy) enemies.get(e);
+                if (distanceEnemy(enemy)) {
+                    setState(State.attack);
+                    if (atkSpeed > 0) return;
+                    enemy.decreaseLife(atk);
+                    atkSpeed = 3.5f - (level * 0.4f);
+                    return;
+                }
             }
         }
         setState(State.idle);
@@ -173,7 +181,6 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
                                 PlayerUnit unit = (PlayerUnit) units.get(i);
                                 if(unit == this) continue;
                                 if(unit.tileIndex != t) continue;
-                                Log.d(TAG, "실행됬나...?" + unit.level);
                                 if(unit.level == this.level && this.level < 5) {
                                     upgradeOn = true;
                                     m_x = tile.getRect().centerX();

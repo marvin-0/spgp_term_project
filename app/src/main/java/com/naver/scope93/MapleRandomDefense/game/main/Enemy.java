@@ -51,7 +51,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
     private static final float MAP_TOP = 2.0f - MAP_RADIUS * 2;
     private static final float MAP_RIGHT = MAP_LEFT + (2*MAP_RADIUS*8);
     private static final float MAP_BOTTOM = MAP_TOP + (2*MAP_RADIUS*5);
-    protected static Gauge gauge = new Gauge(0.1f, R.color.enemy_gauge_fg, R.color.enemy_gauge_bg);
+    protected static Gauge gauge = new Gauge(0.2f, R.color.enemy_gauge_fg, R.color.enemy_gauge_bg);
 
     private Enemy(int level, int index){
         super(resId[level], 10.0f);
@@ -116,8 +116,8 @@ public class Enemy extends AnimSprite implements IRecyclable{
         super.draw(canvas);
 
         canvas.save();
-        float width = dstRect.width() * 0.7f;
-        canvas.translate(x - width / 2, dstRect.bottom);
+        float width = 0.8f * 0.7f;
+        canvas.translate(x - width / 2, dstRect.bottom + 0.1f);
         canvas.scale(width, width);
         gauge.draw(canvas, (float)life / maxLife);
         canvas.restore();
