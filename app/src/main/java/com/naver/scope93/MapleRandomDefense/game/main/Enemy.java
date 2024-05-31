@@ -52,6 +52,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
     private static final float MAP_RIGHT = MAP_LEFT + (2*MAP_RADIUS*8);
     private static final float MAP_BOTTOM = MAP_TOP + (2*MAP_RADIUS*5);
     protected static Gauge gauge = new Gauge(0.2f, R.color.enemy_gauge_fg, R.color.enemy_gauge_bg);
+    private boolean isBoss = false;
 
     private Enemy(int level, int index){
         super(resId[level], 10.0f);
@@ -65,8 +66,11 @@ public class Enemy extends AnimSprite implements IRecyclable{
         dy = SPEED;
         setAnimationResource(resId[level], 10.0f, frameCount[level]);
         setPosition(MAP_LEFT, MAP_TOP, monsterSize[level].x, monsterSize[level].y);
-        InGameScene scene = (InGameScene) Scene.top();
-        scene.addMonster();
+        isBoss = false;
+        if( (level+1) % 5 == 0){
+            isBoss = true;
+        }
+
     }
 
     public static Enemy get(int level, int index){
@@ -110,6 +114,9 @@ public class Enemy extends AnimSprite implements IRecyclable{
             if(scene == null) return;
             scene.remove(InGameScene.Layer.enemy, this);
             scene.killMonster();
+            if(isBoss){
+                scene.killBoss();
+            }
         }
     }
 

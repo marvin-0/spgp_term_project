@@ -23,6 +23,7 @@ public class InGameScene extends Scene {
     Score money;
     private static int monsterKill;
     private static int monsterAmount;
+    private static boolean bossAlive = false;
 
     public enum Layer {
         bg, map, enemy, ui, player, controller, COUNT
@@ -65,6 +66,18 @@ public class InGameScene extends Scene {
             money.add(100);
         }
     }
+
+    public void killBoss(){
+        bossAlive = false;
+        money.add(500);
+    }
+
+    public void bossGenerate(){
+        bossAlive = true;
+    }
+    public boolean isBossAlive(){
+        return bossAlive;
+    }
     public void addMonster(){
         monsterAmount += 1;
     }
@@ -73,9 +86,13 @@ public class InGameScene extends Scene {
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
         if(monsterAmount >= 15){
-            Log.d(TAG, "게임오버");
-            Scene.popAll();
+            gameOver();
         }
+    }
+
+    public void gameOver(){
+        Log.d(TAG, "게임오버");
+        Scene.popAll();
     }
 
     @Override
