@@ -1,6 +1,7 @@
 package com.naver.scope93.MapleRandomDefense.game.main;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.naver.scope93.framework.interfaces.IGameObject;
@@ -47,6 +48,7 @@ public class UnitGenerator implements IGameObject {
     public boolean onTouch(MotionEvent event, InGameScene scene){
         if(event.getAction() == MotionEvent.ACTION_DOWN){
             ArrayList<IGameObject> tiles = scene.objectsAt(InGameScene.Layer.map);
+
             for(int t = 0; t < tiles.size(); t++){
                 mapTile tile = (mapTile)tiles.get(t);
                 if(!tile.unitPlace){

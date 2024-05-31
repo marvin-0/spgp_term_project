@@ -65,6 +65,8 @@ public class Enemy extends AnimSprite implements IRecyclable{
         dy = SPEED;
         setAnimationResource(resId[level], 10.0f, frameCount[level]);
         setPosition(MAP_LEFT, MAP_TOP, monsterSize[level].x, monsterSize[level].y);
+        InGameScene scene = (InGameScene) Scene.top();
+        scene.addMonster();
     }
 
     public static Enemy get(int level, int index){

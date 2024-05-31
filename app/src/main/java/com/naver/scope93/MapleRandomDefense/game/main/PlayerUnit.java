@@ -62,9 +62,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     private PlayerUnit(int level, int index, InGameScene scene) {
         //super(resId[level], 10.0f);
         super(0, 0);
-        if(tiles == null) {
-            tiles = scene.objectsAt(InGameScene.Layer.map);
-        }
+
         init(level, index);
     }
 
@@ -76,6 +74,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
         this.tileIndex = index;
         //srcRects = srcRectsArray[state.ordinal()];
         setState(State.idle);
+
         mapTile tile = (mapTile)tiles.get(index);
         tileIndex = index;
         tile.unitPlace = true;
@@ -87,6 +86,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
 
     public static PlayerUnit get(int level, int index, InGameScene scene){
         PlayerUnit playerUnit = (PlayerUnit) RecycleBin.get(PlayerUnit.class);
+        tiles = scene.objectsAt(InGameScene.Layer.map);
         if(playerUnit != null){
             playerUnit.init(level, index);
             return playerUnit;

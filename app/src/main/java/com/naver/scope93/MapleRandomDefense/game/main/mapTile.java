@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.naver.scope93.framework.objects.Sprite;
 import com.naver.scope93.spgp_term_project.BuildConfig;

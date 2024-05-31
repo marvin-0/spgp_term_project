@@ -1,5 +1,6 @@
 package com.naver.scope93.MapleRandomDefense.game.main;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.naver.scope93.framework.interfaces.IGameObject;
@@ -21,12 +22,14 @@ public class InGameScene extends Scene {
     private ButtonUI sellButton;
     Score money;
     private static int monsterKill;
+    private static int monsterAmount;
 
     public enum Layer {
         bg, map, enemy, ui, player, controller, COUNT
     }
     public InGameScene() {
         monsterKill = 0;
+        monsterAmount = 0;
         initLayers(Layer.COUNT);
 
         add(Layer.bg, new Background(R.mipmap.background));
@@ -57,15 +60,22 @@ public class InGameScene extends Scene {
 
     public void killMonster() {
         monsterKill += 1;
-        if(monsterKill == 5){
+        monsterAmount -= 1;
+        if(monsterKill % 5 == 0){
             money.add(100);
-            monsterKill = 0;
         }
+    }
+    public void addMonster(){
+        monsterAmount += 1;
     }
 
     @Override
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
+        if(monsterAmount >= 15){
+            Log.d(TAG, "게임오버");
+            Scene.popAll();
+        }
     }
 
     @Override
