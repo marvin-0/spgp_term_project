@@ -142,6 +142,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     private boolean selectOn = false;
     private boolean upgradeOn = false;
     private int deleteUnit = -1;
+    private boolean sellOn = false;
 
     public boolean onTouch(MotionEvent event, InGameScene scene){
         switch (event.getAction()){
@@ -192,11 +193,18 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
                         }
                     }
                     //Log.d(TAG, "마우스 x, " + pts[0] + "캐릭터 x : " + dstRect.centerX());
-
+                    ArrayList<IGameObject> buttons = scene.objectsAt(InGameScene.Layer.ui);
+                    ButtonUI sellButton = (ButtonUI)buttons.get(1);
+                    if(sellButton.getRect().contains(x, y)){
+                        sellOn = true;
+                    }
+                    else{
+                        sellOn = false;
+                    }
                 }
                 return true;
             case MotionEvent.ACTION_UP:
-                if(selectOn) {
+                if(selectOn && !sellOn) {
                     mapTile tile = (mapTile)tiles.get(tileIndex);
                     tile.unitPlace = true;
                     setPosition(m_x, m_y, UNIT_WIDTH, UNIT_HEIGHT);
@@ -206,6 +214,9 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
                         scene.remove(InGameScene.Layer.player, deleteunit);
                         upgrade();
                     }
+                } else if(selectOn && sellOn){
+                    scene.addMoney(100);
+                    scene.remove(InGameScene.Layer.player, this);
                 }
                 selectOn = false;
                 return true;

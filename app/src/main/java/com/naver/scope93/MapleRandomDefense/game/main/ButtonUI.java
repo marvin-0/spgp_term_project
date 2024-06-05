@@ -1,6 +1,7 @@
 package com.naver.scope93.MapleRandomDefense.game.main;
 
 import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import com.naver.scope93.framework.objects.Sprite;
@@ -27,6 +28,10 @@ public class ButtonUI extends Sprite {
     @Override
     public void update(float elapsedSeconds) {
 
+    }
+
+    public RectF getRect(){
+        return dstRect;
     }
 
     @Override
