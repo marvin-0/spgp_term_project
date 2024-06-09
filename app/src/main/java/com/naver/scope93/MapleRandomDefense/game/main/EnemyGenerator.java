@@ -20,9 +20,11 @@ public class EnemyGenerator implements IGameObject {
     @Override
     public void update(float elapsedSeconds) {
         enemyTime -= elapsedSeconds;
+        InGameScene scene = (InGameScene) Scene.top();
         if(wave % 5 != 0) {
             if (enemyTime < 0 && enemyCount < 25 && wave <= 20) {
                 generate();
+                scene.addMonster();
                 enemyTime = GEN_INTERVAL;
                 enemyCount++;
             } else if (enemyCount >= 25) {
@@ -33,13 +35,11 @@ public class EnemyGenerator implements IGameObject {
         }
         else{
             if(enemyTime < 0 && enemyCount < 1){
-                InGameScene scene = (InGameScene) Scene.top();
                 scene.bossGenerate();
                 generate();
                 enemyTime = BOSS_FIGHT;
                 enemyCount++;
             } else if(enemyCount > 0 && enemyTime < 0){
-                InGameScene scene = (InGameScene) Scene.top();
                 if(scene.isBossAlive()){
                     scene.gameOver();
                     return;

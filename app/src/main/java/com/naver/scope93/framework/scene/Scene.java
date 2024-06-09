@@ -71,9 +71,9 @@ public class Scene {
     }
 
     public static void finishActivity() {
-        //GameView gameView = null;
-        //gaveView.getActivity().finish();
-        GameActivity.activity.finish();
+        if(GameActivity.activity != null) {
+            GameActivity.activity.finish();
+        }
     }
 
     public static void pauseTop() {

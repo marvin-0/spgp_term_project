@@ -92,7 +92,7 @@ public class InGameScene extends Scene {
 
     public void gameOver(){
         Log.d(TAG, "게임오버");
-        Scene.popAll();
+        finishActivity();
     }
 
     @Override
@@ -102,9 +102,10 @@ public class InGameScene extends Scene {
             PlayerUnit playerUnit = (PlayerUnit)players.get(p);
             playerUnit.onTouch(event, this);
         }
-        if(money.getScore() >= 100) {
-            if(this.buyButton.onTouch(event, unitGenerator))
+        if (money.getScore() >= 100) {
+            if(this.buyButton.onTouch(event, unitGenerator)) {
                 money.sub(100);
+            }
         }
         return true;
     }
