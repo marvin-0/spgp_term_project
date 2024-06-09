@@ -46,7 +46,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
             30, 50, 90, 140, 190, 250
     };
     private static final float[] atkSpeedLevel = {
-            1.5f, 1.0f, 0.6f, 0.2f, 0.05f
+            3.5f, 2.7f, 2.0f, 1.3f, 0.8f, 0.2f
     };
     protected static Rect[] makeRects(int... indices) {
         Rect[] rects = new Rect[indices.length];
@@ -110,7 +110,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
                     setState(State.attack);
                     if (atkSpeed > 0) return;
                     enemy.decreaseLife(atk);
-                    atkSpeed = 3.5f - (level * 0.4f);
+                    atkSpeed = atkSpeedLevel[level];
                     return;
                 }
             }
