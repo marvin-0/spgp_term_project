@@ -3,7 +3,10 @@ package com.naver.scope93.MapleRandomDefense.game.main;
 import android.graphics.Canvas;
 
 import com.naver.scope93.framework.interfaces.IGameObject;
+import com.naver.scope93.framework.objects.Score;
 import com.naver.scope93.framework.scene.Scene;
+import com.naver.scope93.framework.view.Metrics;
+import com.naver.scope93.spgp_term_project.R;
 
 import java.util.Random;
 
@@ -16,6 +19,7 @@ public class EnemyGenerator implements IGameObject {
     private float enemyTime = WAVE_READY;
     private int wave = 1;
     public int enemyCount = 0;
+
 
     @Override
     public void update(float elapsedSeconds) {
@@ -30,12 +34,14 @@ public class EnemyGenerator implements IGameObject {
             } else if (enemyCount >= 25) {
                 enemyTime = WAVE_READY;
                 wave += 1;
+                scene.setWave(wave);
                 enemyCount = 0;
             }
         }
         else{
             if(enemyTime < 0 && enemyCount < 1){
                 scene.bossGenerate();
+                scene.addMonster();
                 generate();
                 enemyTime = BOSS_FIGHT;
                 enemyCount++;
@@ -46,8 +52,12 @@ public class EnemyGenerator implements IGameObject {
                 }
                 enemyTime = WAVE_READY;
                 wave += 1;
+                scene.setWave(wave);
                 enemyCount = 0;
             }
+        }
+        if(wave == 20 && !scene.isBossAlive()){
+            scene.gameClear();
         }
 
 
@@ -61,6 +71,5 @@ public class EnemyGenerator implements IGameObject {
 
     @Override
     public void draw(Canvas canvas) {
-
     }
 }

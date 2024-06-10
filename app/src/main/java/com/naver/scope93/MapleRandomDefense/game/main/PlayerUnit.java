@@ -48,6 +48,10 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     private static final float[] atkSpeedLevel = {
             3.5f, 2.7f, 2.0f, 1.3f, 0.8f, 0.2f
     };
+
+    private static final int[] sellPrice = {
+            25, 50, 100, 150, 250, 400
+    };
     protected static Rect[] makeRects(int... indices) {
         Rect[] rects = new Rect[indices.length];
         for (int i = 0; i < indices.length; i++) {
@@ -215,7 +219,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
                         upgrade();
                     }
                 } else if(selectOn && sellOn){
-                    scene.addMoney(100);
+                    scene.addMoney(sellPrice[this.level]);
                     scene.remove(InGameScene.Layer.player, this);
                 }
                 selectOn = false;

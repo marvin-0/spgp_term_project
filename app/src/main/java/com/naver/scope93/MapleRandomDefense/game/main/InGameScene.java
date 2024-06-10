@@ -21,6 +21,8 @@ public class InGameScene extends Scene {
     private ButtonUI buyButton;
     private ButtonUI sellButton;
     Score money;
+    Score wave;
+    Score remainMonster;
     private static int monsterKill;
     private static int monsterAmount;
     private static boolean bossAlive = false;
@@ -49,20 +51,30 @@ public class InGameScene extends Scene {
         this.sellButton = new ButtonUI(1);
         add(Layer.ui, this.sellButton);
 
-        this.money = new Score(R.mipmap.count_sheet, 3.0f, Metrics.height -1.5f, 0.6f);
+        this.money = new Score(R.mipmap.count_sheet, Metrics.width - 0.5f, 1.0f, 0.6f);
         money.setScore(300);
         add(Layer.ui, money);
+
+        this.wave = new Score(R.mipmap.count_sheet, Metrics.width - 0.5f, 2.0f, 0.6f);
+        wave.setScore(1);
+        add(Layer.ui, wave);
+
+        this.remainMonster = new Score(R.mipmap.count_sheet, Metrics.width - 0.5f, 3.0f, 0.6f);
+        remainMonster.setScore(monsterAmount);
+        add(Layer.ui, remainMonster);
+
 
     }
 
     public void addMoney(int amount) {money.add(amount);}
     public void subMoney(int amount) {money.sub(amount);}
     public int getMoney() {return money.getScore();}
+    public void setWave(int wave) {this.wave.setScore(wave);}
 
     public void killMonster() {
         monsterKill += 1;
         monsterAmount -= 1;
-        if(monsterKill % 5 == 0){
+        if(monsterKill % 10 == 0){
             money.add(100);
         }
     }
@@ -82,9 +94,14 @@ public class InGameScene extends Scene {
         monsterAmount += 1;
     }
 
+    public int getMonsterAmount(){
+        return monsterAmount;
+    }
+
     @Override
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
+        remainMonster.setScore(monsterAmount);
         if(monsterAmount >= 15){
             gameOver();
         }
@@ -92,6 +109,10 @@ public class InGameScene extends Scene {
 
     public void gameOver(){
         Log.d(TAG, "게임오버");
+        finishActivity();
+    }
+
+    public void gameClear(){
         finishActivity();
     }
 
