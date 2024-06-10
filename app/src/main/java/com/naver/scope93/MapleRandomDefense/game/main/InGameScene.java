@@ -106,18 +106,18 @@ public class InGameScene extends Scene {
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
         remainMonster.setScore(monsterAmount);
-        if(monsterAmount >= 5){
+        if(monsterAmount >= 15){
             gameOver();
         }
     }
 
     public void gameOver(){
         Log.d(TAG, "게임오버");
-        new GameEndScene().push();
+        new GameEndScene(false).push();
     }
 
     public void gameClear(){
-        finishActivity();
+        new GameEndScene(true).push();
     }
 
     @Override

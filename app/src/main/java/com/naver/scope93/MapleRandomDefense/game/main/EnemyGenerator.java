@@ -54,11 +54,11 @@ public class EnemyGenerator implements IGameObject {
                 wave += 1;
                 scene.setWave(wave);
                 enemyCount = 0;
+            } else if(enemyCount > 0 && wave == 20 && !scene.isBossAlive()){
+                scene.gameClear();
             }
         }
-        if(wave == 20 && !scene.isBossAlive()){
-            scene.gameClear();
-        }
+
 
 
     }
