@@ -1,8 +1,12 @@
 package com.naver.scope93.MapleRandomDefense.game.main;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.naver.scope93.MapleRandomDefense.app.MapleRandomDefense;
+import com.naver.scope93.MapleRandomDefense.game.paused.GameEndScene;
+import com.naver.scope93.framework.activity.GameActivity;
 import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.objects.Background;
 import com.naver.scope93.framework.objects.Score;
@@ -102,14 +106,14 @@ public class InGameScene extends Scene {
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
         remainMonster.setScore(monsterAmount);
-        if(monsterAmount >= 15){
+        if(monsterAmount >= 5){
             gameOver();
         }
     }
 
     public void gameOver(){
         Log.d(TAG, "게임오버");
-        finishActivity();
+        new GameEndScene().push();
     }
 
     public void gameClear(){

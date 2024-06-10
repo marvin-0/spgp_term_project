@@ -7,11 +7,13 @@ import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.naver.scope93.MapleRandomDefense.game.main.InGameScene;
 import com.naver.scope93.framework.activity.GameActivity;
 import com.naver.scope93.framework.interfaces.IBoxCollidable;
 import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.interfaces.IRecyclable;
 import com.naver.scope93.framework.interfaces.ITouchable;
+import com.naver.scope93.framework.view.Metrics;
 import com.naver.scope93.spgp_term_project.BuildConfig;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class Scene {
 
     private static final String TAG = Scene.class.getSimpleName();
     private static ArrayList<Scene> stack = new ArrayList<>();
+    public static boolean drawsDebugInfo = false;
 
     public static Scene top() {
         int top = stack.size() - 1;
@@ -68,6 +71,17 @@ public class Scene {
         }
         stack.clear();
         finishActivity();
+    }
+
+    public void restart() {
+        int count = stack.size();
+        for (int i = count - 1; i >= 0; i--) {
+            Scene scene = stack.get(i);
+            scene.onEnd();
+        }
+        stack.clear();
+        push(new InGameScene());
+        Log.e(TAG, "씬 다시넣기");
     }
 
     public static void finishActivity() {
@@ -125,18 +139,29 @@ public class Scene {
 
     protected static Paint bboxPaint;
     public void draw(Canvas canvas) {
-        for (ArrayList<IGameObject> objects: layers) {
+        draw(canvas, stack.size() - 1);
+    }
+    protected static void draw(Canvas canvas, int index) {
+        Scene scene = stack.get(index);
+        if (scene.isTransparent() && index > 0) {
+            draw(canvas, index - 1);
+        }
+
+        if (scene.clipsRect()) {
+            canvas.clipRect(0, 0, Metrics.width, Metrics.height);
+        }
+        for (ArrayList<IGameObject> objects: scene.layers) {
             for (IGameObject gobj : objects) {
                 gobj.draw(canvas);
             }
         }
-        if (BuildConfig.DEBUG) {
+        if (Scene.drawsDebugInfo) {
             if (bboxPaint == null) {
                 bboxPaint = new Paint();
                 bboxPaint.setStyle(Paint.Style.STROKE);
                 bboxPaint.setColor(Color.RED);
             }
-            for (ArrayList<IGameObject> objects: layers) {
+            for (ArrayList<IGameObject> objects: scene.layers) {
                 for (IGameObject gobj : objects) {
                     if (gobj instanceof IBoxCollidable) {
                         RectF rect = ((IBoxCollidable) gobj).getCollisionRect();

@@ -15,9 +15,11 @@
         <activity
             android:name="com.naver.scope93.MapleRandomDefense.app.MapleRandomDefense"
             android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize"
             android:exported="false"/>
         <activity
             android:name="com.naver.scope93.MapleRandomDefense.app.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
