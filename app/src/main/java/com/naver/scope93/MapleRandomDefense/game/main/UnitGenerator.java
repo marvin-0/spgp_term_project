@@ -31,17 +31,17 @@ public class UnitGenerator implements IGameObject {
     }
 
     private int randomLevel(){
-//        int randomNum = random.nextInt(100);
-//
-//        int[] gamble = {50, 75, 90, 95, 99};
-//        //int[] gamble = {20, 40, 60, 80, 100};
-//
-//        for(int i = 0; i < gamble.length; ++i){
-//            if(randomNum < gamble[i]){
-//                return i;
-//            }
-//        }
-        return 3;
+        int randomNum = random.nextInt(100);
+
+        int[] gamble = {50, 75, 90, 95, 99};
+        //int[] gamble = {20, 40, 60, 80, 100};
+
+        for(int i = 0; i < gamble.length; ++i){
+            if(randomNum < gamble[i]){
+                return i;
+            }
+        }
+        return 5;
     }
 
     public boolean onTouch(MotionEvent event, InGameScene scene){

@@ -56,7 +56,7 @@ public class Score implements IGameObject {
             canvas.drawBitmap(bitmap, srcRect, dstRect, null);
             value /= 10;
         }
-        if(value == 0){
+        if(score == 0){
             srcRect.set(0, 0, srcCharWidth, srcCharHeight);
             dstRect.set(right - dstCharWidth, top, right, top + dstCharHeight);
             canvas.drawBitmap(bitmap, srcRect, dstRect, null);
