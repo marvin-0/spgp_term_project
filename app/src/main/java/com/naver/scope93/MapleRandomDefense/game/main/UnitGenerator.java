@@ -31,7 +31,6 @@ public class UnitGenerator implements IGameObject {
         if(scene == null) return;
         scene.add(InGameScene.Layer.player, PlayerUnit.get(randomLevel(), this.index, (InGameScene) scene));
     }
-
     private int randomLevel(){
         int randomNum = random.nextInt(100);
 
@@ -40,10 +39,12 @@ public class UnitGenerator implements IGameObject {
 
         for(int i = 0; i < gamble.length; ++i){
             if(randomNum < gamble[i]){
+                if(i > 2)
+                    Sound.playEffect(R.raw.pick_4_5);
                 return i;
             }
         }
-        Sound.playEffect(R.raw.highlevel_pick);
+        Sound.playEffect(R.raw.pick_6);
         return 5;
     }
 

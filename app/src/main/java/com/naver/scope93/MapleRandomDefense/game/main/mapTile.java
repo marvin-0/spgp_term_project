@@ -38,14 +38,13 @@ public class mapTile extends Sprite {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if(BuildConfig.DEBUG) {
-            if(tilePaint == null){
-                tilePaint = new Paint();
-                tilePaint.setStyle(Paint.Style.STROKE);
-                tilePaint.setColor(Color.RED);
-            }
-            canvas.drawRect(dstRect, tilePaint);
+        if(tilePaint == null){
+            tilePaint = new Paint();
+            tilePaint.setStyle(Paint.Style.STROKE);
+            tilePaint.setColor(Color.RED);
         }
+        canvas.drawRect(dstRect, tilePaint);
+
     }
 
     public RectF getRect(){

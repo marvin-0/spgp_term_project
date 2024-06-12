@@ -48,17 +48,17 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     };
 
     private static final int[] atkLevel = {
-            30, 50, 90, 140, 190, 250
+            50, 70, 100, 140, 190, 250
     };
     private static final float[] atkSpeedLevel = {
             1.5f, 1.2f, 0.9f, 0.7f, 0.5f, 0.2f
     };
 
     private static final int[] sellPrice = {
-            25, 45, 80, 145, 250, 400
+            50, 75, 100, 250, 600, 1000
     };
     private static final int[] upgradeProc = {
-            100, 85, 65, 45, 30, 0
+            100, 75, 55, 45, 25, 0
     };
     protected static Rect[] makeRects(int... indices) {
         Rect[] rects = new Rect[indices.length];
@@ -74,9 +74,11 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     private PlayerUnit(int level, int index, InGameScene scene) {
         //super(resId[level], 10.0f);
         super(0, 0);
-        selectPaint = new Paint();
-        selectPaint.setColor(Color.BLACK);
-        selectPaint.setTextSize(10f);
+        if(selectPaint == null) {
+            selectPaint = new Paint();
+            selectPaint.setColor(Color.BLACK);
+            selectPaint.setTextSize(10f);
+        }
         init(level, index);
     }
 
@@ -172,7 +174,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
         this.range = 0.6f * (level+3);
         setAnimationResource(resId[this.level], 8, 1);
     }
-    private Paint selectPaint;
+    private static Paint selectPaint;
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);

@@ -2,6 +2,7 @@ package com.naver.scope93.MapleRandomDefense.game.paused;
 
 import com.naver.scope93.framework.objects.Button;
 import com.naver.scope93.framework.objects.Sprite;
+import com.naver.scope93.framework.res.Sound;
 import com.naver.scope93.framework.scene.Scene;
 import com.naver.scope93.framework.view.Metrics;
 import com.naver.scope93.spgp_term_project.R;
@@ -25,6 +26,7 @@ public class GameEndScene extends Scene {
         add(Layer.touch, new Button(R.mipmap.restart_button, 6f, 5.5f, 2.667f, 1f, new Button.Callback() {
             @Override
             public boolean onTouch(Button.Action action) {
+                Sound.stopMusic();
                 restart();
                 return false;
             }
@@ -32,6 +34,7 @@ public class GameEndScene extends Scene {
         add(Layer.touch, new Button(R.mipmap.title_button, 10f, 5.5f, 2.667f, 1f, new Button.Callback() {
             @Override
             public boolean onTouch(Button.Action action) {
+                Sound.stopMusic();
                 Scene.popAll();
                 return false;
             }

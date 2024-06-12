@@ -74,6 +74,16 @@ public class InGameScene extends Scene {
     @Override
     protected void onStart(){
         Sound.playMusic(R.raw.ingame_bgm);
+        Sound.inputEffect(R.raw.pick_4_5);
+        Sound.inputEffect(R.raw.pick_6);
+        Sound.inputEffect(R.raw.upgrade_success);
+        Sound.inputEffect(R.raw.upgrade_fail);
+        Sound.inputEffect(R.raw.sell);
+        Sound.inputEffect(R.raw.button_click);
+        Sound.inputEffect(R.raw.char_click);
+        Sound.inputEffect(R.raw.gameover);
+        Sound.inputEffect(R.raw.gameclear);
+
     }
     @Override
     protected void onEnd() {
@@ -124,10 +134,12 @@ public class InGameScene extends Scene {
 
     public void gameOver(){
         Log.d(TAG, "게임오버");
+        Sound.playEffect(R.raw.gameover);
         new GameEndScene(false).push();
     }
 
     public void gameClear(){
+        Sound.playEffect(R.raw.gameclear);
         new GameEndScene(true).push();
     }
 

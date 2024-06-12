@@ -49,6 +49,15 @@ public class Sound {
         pool.play(soundId, 1f, 1f, 1, 0, 1f);
     }
 
+    public static void inputEffect(int resId){
+        SoundPool pool = getSoundPool();
+        int soundId;
+        if (!soundIdMap.containsKey(resId)) {
+            soundId = pool.load(GameActivity.activity, resId, 1);
+            soundIdMap.put(resId, soundId);
+        }
+    }
+
     private static SoundPool getSoundPool() {
         if (soundPool != null) return soundPool;
 

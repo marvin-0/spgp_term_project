@@ -48,10 +48,10 @@ public class Enemy extends AnimSprite implements IRecyclable{
             makeSize(1.0f, 1.0f), makeSize(1.9f, 1.9f)
     };
     private static int[] levelHp = {
-            30, 90, 150, 210, 1000,
-            250, 300, 350, 400, 4500,
-            600, 680, 750, 800, 6000,
-            1000, 1100, 1200, 1300, 8000
+            30, 90, 150, 210, 3000,
+            250, 400, 550, 650, 4500,
+            750, 850, 1000, 1100, 7000,
+            1300, 1500, 1700, 2000, 10000
     };
     private static int[] deadSound = {
             R.raw.monster1_die, R.raw.monster2_die, R.raw.monster3_die, R.raw.monster4_die
