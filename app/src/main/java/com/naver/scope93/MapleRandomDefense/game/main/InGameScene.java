@@ -57,6 +57,7 @@ public class InGameScene extends Scene {
 
         this.money = new Score(R.mipmap.count_sheet, Metrics.width - 0.5f, 1.0f, 0.6f);
         money.setScore(300);
+        //money.setScore(300);
         add(Layer.ui, money);
 
         this.wave = new Score(R.mipmap.count_sheet, Metrics.width - 0.5f, 2.0f, 0.6f);
@@ -106,7 +107,7 @@ public class InGameScene extends Scene {
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
         remainMonster.setScore(monsterAmount);
-        if(monsterAmount >= 15){
+        if(monsterAmount >= 25){
             gameOver();
         }
     }

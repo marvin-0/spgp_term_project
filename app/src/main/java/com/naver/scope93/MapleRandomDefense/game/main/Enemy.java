@@ -46,6 +46,12 @@ public class Enemy extends AnimSprite implements IRecyclable{
             makeSize(0.7f, 0.7f), makeSize(1.1f, 1.1f), makeSize(1.0f, 1.0f),
             makeSize(1.0f, 1.0f), makeSize(1.9f, 1.9f)
     };
+    private static int[] levelHp = {
+            30, 90, 150, 210, 1000,
+            250, 300, 350, 400, 4500,
+            600, 680, 750, 800, 6000,
+            1000, 1100, 1200, 1300, 8000
+    };
     private static final float MAP_RADIUS = 0.6f;
     private static final float MAP_LEFT = 3.8f - MAP_RADIUS * 2;
     private static final float MAP_TOP = 2.0f - MAP_RADIUS * 2;
@@ -61,7 +67,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
 
     private void init(int level, int index){
         this.level = level;
-        this.life = this.maxLife = (level + 1) * 30;
+        this.life = this.maxLife = levelHp[level];
         this.dx = 0;
         dy = SPEED;
         setAnimationResource(resId[level], 10.0f, frameCount[level]);

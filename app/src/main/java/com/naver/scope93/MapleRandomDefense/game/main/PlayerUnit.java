@@ -46,11 +46,11 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
             30, 50, 90, 140, 190, 250
     };
     private static final float[] atkSpeedLevel = {
-            3.5f, 2.7f, 2.0f, 1.3f, 0.8f, 0.2f
+            1.5f, 1.2f, 0.9f, 0.7f, 0.5f, 0.2f
     };
 
     private static final int[] sellPrice = {
-            25, 50, 100, 150, 250, 400
+            25, 45, 80, 145, 250, 400
     };
     protected static Rect[] makeRects(int... indices) {
         Rect[] rects = new Rect[indices.length];

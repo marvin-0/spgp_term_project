@@ -17,7 +17,7 @@ public class EnemyGenerator implements IGameObject {
     public static final float BOSS_FIGHT = 20.f;
     private final Random random = new Random();
     private float enemyTime = WAVE_READY;
-    private int wave = 1;
+    private int wave = 6;
     public int enemyCount = 0;
 
 
