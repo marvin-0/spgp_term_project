@@ -6,6 +6,7 @@ import android.graphics.RectF;
 
 import com.naver.scope93.framework.interfaces.IRecyclable;
 import com.naver.scope93.framework.objects.AnimSprite;
+import com.naver.scope93.framework.res.Sound;
 import com.naver.scope93.framework.scene.RecycleBin;
 import com.naver.scope93.framework.scene.Scene;
 import com.naver.scope93.framework.util.Gauge;
@@ -51,6 +52,9 @@ public class Enemy extends AnimSprite implements IRecyclable{
             250, 300, 350, 400, 4500,
             600, 680, 750, 800, 6000,
             1000, 1100, 1200, 1300, 8000
+    };
+    private static int[] deadSound = {
+            R.raw.monster1_die, R.raw.monster2_die, R.raw.monster3_die, R.raw.monster4_die
     };
     private static final float MAP_RADIUS = 0.6f;
     private static final float MAP_LEFT = 3.8f - MAP_RADIUS * 2;
@@ -118,6 +122,7 @@ public class Enemy extends AnimSprite implements IRecyclable{
         if(this.life <= 0){
             InGameScene scene = (InGameScene) Scene.top();
             if(scene == null) return;
+            Sound.playEffect(deadSound[level/5]);
             scene.remove(InGameScene.Layer.enemy, this);
             scene.killMonster();
             if(isBoss){

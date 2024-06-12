@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.naver.scope93.framework.interfaces.IGameObject;
+import com.naver.scope93.framework.res.Sound;
 import com.naver.scope93.framework.scene.Scene;
+import com.naver.scope93.spgp_term_project.R;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -41,6 +43,7 @@ public class UnitGenerator implements IGameObject {
                 return i;
             }
         }
+        Sound.playEffect(R.raw.highlevel_pick);
         return 5;
     }
 

@@ -10,6 +10,7 @@ import com.naver.scope93.framework.activity.GameActivity;
 import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.objects.Background;
 import com.naver.scope93.framework.objects.Score;
+import com.naver.scope93.framework.res.Sound;
 import com.naver.scope93.framework.scene.Scene;
 import com.naver.scope93.framework.view.Metrics;
 import com.naver.scope93.spgp_term_project.R;
@@ -70,6 +71,15 @@ public class InGameScene extends Scene {
 
 
     }
+    @Override
+    protected void onStart(){
+        Sound.playMusic(R.raw.ingame_bgm);
+    }
+    @Override
+    protected void onEnd() {
+        Sound.stopMusic();
+    }
+
 
     public void addMoney(int amount) {money.add(amount);}
     public void subMoney(int amount) {money.sub(amount);}
@@ -130,6 +140,7 @@ public class InGameScene extends Scene {
         }
         if (money.getScore() >= 100) {
             if(this.buyButton.onTouch(event, unitGenerator)) {
+                Sound.playEffect(R.raw.button_click);
                 money.sub(100);
             }
         }

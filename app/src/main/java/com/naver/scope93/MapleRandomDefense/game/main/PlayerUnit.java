@@ -1,6 +1,8 @@
 package com.naver.scope93.MapleRandomDefense.game.main;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -8,12 +10,14 @@ import android.view.MotionEvent;
 import com.naver.scope93.framework.interfaces.IGameObject;
 import com.naver.scope93.framework.interfaces.IRecyclable;
 import com.naver.scope93.framework.objects.SheetSprite;
+import com.naver.scope93.framework.res.Sound;
 import com.naver.scope93.framework.scene.RecycleBin;
 import com.naver.scope93.framework.scene.Scene;
 import com.naver.scope93.framework.view.Metrics;
 import com.naver.scope93.spgp_term_project.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PlayerUnit extends SheetSprite implements IRecyclable {
     public enum State {
@@ -31,6 +35,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     private float m_x, m_y;
     private int tileIndex = -1;
     protected State state = State.idle;
+    private final Random random = new Random();
     protected static Rect[][] srcRectsArray = {
             makeRects(0, 1, 2),
             makeRects(100, 101, 102)
@@ -52,6 +57,9 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     private static final int[] sellPrice = {
             25, 45, 80, 145, 250, 400
     };
+    private static final int[] upgradeProc = {
+            100, 85, 65, 45, 30, 0
+    };
     protected static Rect[] makeRects(int... indices) {
         Rect[] rects = new Rect[indices.length];
         for (int i = 0; i < indices.length; i++) {
@@ -66,7 +74,9 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     private PlayerUnit(int level, int index, InGameScene scene) {
         //super(resId[level], 10.0f);
         super(0, 0);
-
+        selectPaint = new Paint();
+        selectPaint.setColor(Color.BLACK);
+        selectPaint.setTextSize(10f);
         init(level, index);
     }
 
@@ -98,6 +108,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
         return new PlayerUnit(level, index, scene);
     }
 
+    private int nearEnemy = -1;
     public void update(float elapsedSeconds){
         attack(elapsedSeconds);
     }
@@ -108,23 +119,46 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
 
         if(!selectOn) {
             ArrayList<IGameObject> enemies = scene.objectsAt(InGameScene.Layer.enemy);
-            for (int e = 0; e < enemies.size(); e++) {
-                Enemy enemy = (Enemy) enemies.get(e);
-                if (distanceEnemy(enemy)) {
-                    setState(State.attack);
-                    if (atkSpeed > 0) return;
-                    enemy.decreaseLife(atk);
-                    atkSpeed = atkSpeedLevel[level];
-                    return;
+            float minDis = Float.MAX_VALUE;
+            if(nearEnemy < 0) {
+                for (int e = 0; e < enemies.size(); e++) {
+                    Enemy enemy = (Enemy) enemies.get(e);
+                    float distance = distanceEnemy(enemy);
+                    if (distance < range * range && minDis > distance) {
+                        minDis = distance;
+                        nearEnemy = e;
+                    }
                 }
             }
+            if(nearEnemy >= 0){
+                if(nearEnemy >= enemies.size()){
+                    nearEnemy = -1;
+                    setState(State.idle);
+                    return;
+                }
+                Enemy enemy = (Enemy) enemies.get(nearEnemy);
+
+                if(distanceEnemy(enemy) > range * range){
+                    nearEnemy = -1;
+                    setState(State.idle);
+                    return;
+                }
+                setState(State.attack);
+                if (atkSpeed > 0) {
+                    return;
+                }
+                ((Enemy)enemies.get(nearEnemy)).decreaseLife(atk);
+                atkSpeed = atkSpeedLevel[level];
+                return;
+            }
+
         }
         setState(State.idle);
     }
 
-    private boolean distanceEnemy(Enemy enemy){
+    private float distanceEnemy(Enemy enemy){
         float distance = (float)(Math.pow(enemy.getRect().centerX() - x, 2) + Math.pow(enemy.getRect().centerY() - y, 2));
-        return (distance < range*range);
+        return distance;
     }
 
     private void setState(State state){
@@ -133,14 +167,22 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
     }
     private void upgrade(){
         this.level += 1;
-        this.atk = (this.level + 1) * 30;
-        this.atkSpeed = 3.5f - (this.level * 0.4f);
-        this.range = 0.6f * (this.level+3);
+        this.atk = atkLevel[level];
+        this.atkSpeed = atkSpeedLevel[level];
+        this.range = 0.6f * (level+3);
         setAnimationResource(resId[this.level], 8, 1);
     }
+    private Paint selectPaint;
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        canvas.save();
+        canvas.translate(0.5f, 7.7f);
+        canvas.scale(0.08f, 0.08f);
+        if(selectOn){
+            canvas.drawText("판매가 : " + sellPrice[level] + " 강화확률" + upgradeProc[level], 5f, 5f, selectPaint);
+        }
+        canvas.restore();
     }
 
     private boolean selectOn = false;
@@ -153,6 +195,7 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
             case MotionEvent.ACTION_DOWN:
                 float[] pts = Metrics.fromScreen(event.getX(), event.getY());
                 if(dstRect.contains(pts[0], pts[1])){
+                    Sound.playEffect(R.raw.char_click);
                     //Log.d(TAG, "터치됨 "+this.index);
                     selectOn = true;
                     if(tileIndex != -1) {
@@ -213,12 +256,22 @@ public class PlayerUnit extends SheetSprite implements IRecyclable {
                     tile.unitPlace = true;
                     setPosition(m_x, m_y, UNIT_WIDTH, UNIT_HEIGHT);
                     if(upgradeOn){
+                        int randomNum = random.nextInt(100);
+
                         ArrayList<IGameObject> units = scene.objectsAt(InGameScene.Layer.player);
                         PlayerUnit deleteunit = (PlayerUnit) units.get(this.deleteUnit);
                         scene.remove(InGameScene.Layer.player, deleteunit);
-                        upgrade();
+
+                        if(randomNum < upgradeProc[level]) {
+                            Sound.playEffect(R.raw.upgrade_success);
+                            upgrade();
+                        }
+                        else{
+                            Sound.playEffect(R.raw.upgrade_fail);
+                        }
                     }
                 } else if(selectOn && sellOn){
+                    Sound.playEffect(R.raw.sell);
                     scene.addMoney(sellPrice[this.level]);
                     scene.remove(InGameScene.Layer.player, this);
                 }
