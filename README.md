@@ -107,7 +107,9 @@
 -------------------
 
 5. 주차별 커밋수
-   ![image](https://github.com/marvin-0/spgp_term_project/assets/58317329/70ad0ed5-a26a-442f-96d6-dcd3523bfb80)
+   
+   ![image](https://github.com/marvin-0/spgp_term_project/assets/58317329/ff782ab8-8817-4ff0-b0e9-896a45272c99)
+
 
    |주차|커밋수|
    |:---:|:---:|
