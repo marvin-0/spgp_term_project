@@ -8,6 +8,8 @@
    * 맵 주위를 돌아다니는 몬스터를 유저가 랜덤하게 뽑은 유닛으로 죽이는 게임
   ![Screenshot_2024 06 13_14 47 27 618](https://github.com/marvin-0/spgp_term_project/assets/58317329/c8ad473a-cfa3-4ae7-936e-ea352cb75915)
 
+발표영상 : https://www.youtube.com/watch?v=e4spb5SBUhQ
+
 -----------------
 2. 개발범위
 
